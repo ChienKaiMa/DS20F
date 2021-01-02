@@ -49,8 +49,40 @@ def hash_search(hash_val_in):
                 return (pw, i, search_count)
     return False
 
-while True:
-    hash_val_in = input("Enter a hash value: ")
+test_prompt = input("Do you want to test hash value file? (Yes/No) ")
+if test_prompt == "Yes":
+    test_file = open("list_pa2.txt", 'r')
+    test_str = test_file.read()
+    test_list = test_str.splitlines()
+    result_file = open("result_pa2.txt", 'w')
+    # TODO Search and write out
+    
+    for hash_val_in in test_list:
+        search_result = hash_search(hash_val_in)
+        if (search_result != 0):
+            result_file.write(hash_val_in)
+            result_file.write(" ")
+            result_file.write(search_result[0])
+            result_file.write(" ")
+            result_file.write(salt_list[search_result[1]])
+            result_file.write(" ")
+            result_file.write(str(search_result[2]))
+        else:
+            result_file.write(hash_val_in)
+            result_file.write(" ")
+            result_file.write("******")
+            result_file.write(" ")
+            result_file.write("***")
+            print("Search failed!")
+            print("Have Searched 100000 entries.")
+        result_file.write("\n")
+    result_file.close()
+else:
+    print("Skip the test file...")
+    print()
+
+hash_val_in = input("Enter a hash value: ")
+while hash_val_in != "":
     search_result = hash_search(hash_val_in)
     if (search_result != 0):
         print("Search succeeded!")
@@ -61,3 +93,5 @@ while True:
     else:
         print("Search failed!")
         print("Have Searched 100000 entries.")
+        print()
+    hash_val_in = input("Enter a hash value: ")
